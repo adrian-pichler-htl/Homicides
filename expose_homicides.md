@@ -2,7 +2,7 @@
 
 ## Domänendefinition
 
-Verwaltung und Strukturierung von Daten zu Tötungsdelikten in den USA basierend auf den Supplementary Homicide Reports (SHR) des FBI (Erhebungsjahre 1980 und 2025, Haupttabelle mit über 20.000 Datensätzen). Die Datenbank richtet sich an Kriminologen, Strafverfolgungsbehörden und Journalisten zur statistischen Analyse von Kriminalitätsentwicklungen.
+Verwaltung und Strukturierung von Daten zu Tötungsdelikten in den USA basierend auf den [Supplementary Homicide Reports (SHR) des FBI](https://cde.ucr.cjis.gov/LATEST/webapp/#/pages/explorer/crime/shr) (Erhebungsjahre 1985 und 2025, Haupttabelle mit über 20.000 Datensätzen). Die Datenbank richtet sich an Kriminologen, Strafverfolgungsbehörden und Journalisten zur statistischen Analyse von Kriminalitätsentwicklungen.
 
 **Gespeicherte Daten:**
 
@@ -23,7 +23,7 @@ Aus Datenschutzgründen werden keine identifizierenden personenbezogenen Klardat
 
 ## SQL-Abfragen
 
-* Vergleich der Tötungsdelikte und Gesamtopferzahlen pro Bundesstaat zwischen 1980 und 2025
+* Vergleich der Tötungsdelikte und Gesamtopferzahlen pro Bundesstaat zwischen 1985 und 2025
 * Die 5 häufigsten Tatwaffen bei Beziehungstaten in Bundesstaaten mit hoher Fallzahl
 * Polizeibehörden mit überdurchschnittlich vielen ungelösten Fällen
 * **Data Dictionary:** Ausgabe aller Tabellen und deren Spaltenanzahl
@@ -41,4 +41,4 @@ Aus Datenschutzgründen werden keine identifizierenden personenbezogenen Klardat
 * **Benutzer `Investigator`:** Zugewiesene Rolle `DataAnalyst`.
 * **Benutzer `AdminUser`:** Vollzugriff (Lesen, Schreiben, DDL) auf alle Tabellen und Views.
 * **Benutzer `PublicViewer`:** Leserechte nur auf Stammdaten (`AGENCY`, `WEAPON`) sowie auf die View.
-* **View `Historical_Comparison_View`:** Verknüpft Vorfälle, Behörden und Waffen zur anonymisierten Gegenüberstellung von Kriminalitätsstatistiken der Jahre 1980 und 2025.
+* **View `Historical_Comparison_View`:** Verknüpft Vorfälle, Behörden und Waffen über JOINs zu einer fertigen Auswertung (Fallzahlen, Waffenverteilung und Aufklärungsraten im Vergleich 1985 vs. 2025), um Endanwendern komplexe Abfragen über mehrere Tabellen zu ersparen.
