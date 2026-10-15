@@ -2,123 +2,43 @@
 
 ## Domänendefinition
 
-**Worum geht es?**
-Die Datenbank verwaltet und strukturiert Daten zu Tötungsdelikten (Homicides) in den USA. Die Grundlage bilden die "Supplementary Homicide Reports" (SHR) des FBI, welche Informationen über Vorfälle, beteiligte Polizeibehörden sowie Täter und Opfer beinhalten. 
+Verwaltung und Strukturierung von Daten zu Tötungsdelikten in den USA basierend auf den Supplementary Homicide Reports (SHR) des FBI (Erhebungsjahre 1980 und 2025, Haupttabelle mit über 20.000 Datensätzen). Die Datenbank richtet sich an Kriminologen, Strafverfolgungsbehörden und Journalisten zur statistischen Analyse von Kriminalitätsentwicklungen.
 
-**Für wen oder für welche Anwendung soll die Datenbank sein?**
-Die Datenbank richtet sich an Kriminologen, Soziologen, Strafverfolgungsbehörden und Journalisten. Sie ermöglicht statistische Analysen (z.B. Trends über Zeiträume, verwendete Waffen, Täter-Opfer-Beziehungen, Aufklärungsraten nach Bundesstaaten).
+**Gespeicherte Daten:**
 
-**Welche Daten sollen gespeichert werden?**
-* **Behörden (Agencies):** Name, Bundesstaat, Bevölkerungsgröße (Population), Kennungen (ORI Code).
-* **Vorfälle (Incidents):** Jahr, Monat, Art des Delikts, Situation (z.B. "Single Victim/Single Offender").
-* **Personen (als Opfer oder Täter):** Alter, Geschlecht, Rasse, ethnische Zugehörigkeit.
-* **Tatdetails:** Verwendete Waffen, Umstände (Circumstances) und die Beziehung zwischen Täter und Opfer.
+* **Behörde / Agency:** ORI-Code, Name, Bundesstaat, Population, County
+* **Vorfall / Incident:** ID, Jahr, Monat, Aktenzeichen, Situation, Deliktart
+* **Person:** ID, Alter, Geschlecht, Rasse, Ethnie
+* **Waffe:** ID, Beschreibung
+* **Tatumstand / Circumstance:** ID, Beschreibung
+* **Opfer-Beteiligung:** Vorfall, Person (m:n-Zuordnung)
+* **Täter-Beteiligung:** Vorfall, Person, Waffe, Tatumstand, Beziehung zum Opfer (m:n-Zuordnung)
 
-**Welche Daten werden NICHT gespeichert?**
-Aus Datenschutzgründen werden **keine identifizierenden personenbezogenen Daten** (wie echte Namen, exakte Adressen, Sozialversicherungsnummern) gespeichert. Personen werden rein als demografische Profile erfasst.
-
----
+**Nicht gespeicherte Daten:**  
+Aus Datenschutzgründen werden keine identifizierenden personenbezogenen Klardaten (wie reale Namen, Wohnadressen oder Sozialversicherungsnummern) erfasst.
 
 ## Modellierung (ERD)
 
-Um die denormalisierten CSV-Daten sinnvoll abzubilden, werden mindestens 5 Tabellen und mehrere m:n-Beziehungen definiert (z.B. können bei einem Vorfall mehrere Täter und Opfer beteiligt sein).
+![](erd.png)
 
-```mermaid
-erDiagram
-    AGENCY {
-        string ORI_Code PK
-        string Agency_Name
-        string State_Name
-        int Population
-        string County
-    }
-    INCIDENT {
-        int Incident_ID PK
-        string ORI_Code FK
-        int Year
-        int Month
-        string Incident_Number
-        string Situation
-        string Homicide_Type
-    }
-    PERSON {
-        int Person_ID PK
-        int Age
-        string Sex
-        string Race
-        string Ethnicity
-    }
-    WEAPON {
-        int Weapon_ID PK
-        string Description
-    }
-    CIRCUMSTANCE {
-        int Circumstance_ID PK
-        string Description
-    }
-    VICTIM_INVOLVEMENT {
-        int Incident_ID PK, FK
-        int Person_ID PK, FK
-    }
-    OFFENDER_INVOLVEMENT {
-        int Incident_ID PK, FK
-        int Person_ID PK, FK
-        int Weapon_ID FK
-        int Circumstance_ID FK
-        string Relationship
-    }
+## SQL-Abfragen
 
-    AGENCY ||--o{ INCIDENT : "meldet"
-    INCIDENT ||--|{ VICTIM_INVOLVEMENT : "hat"
-    PERSON ||--o{ VICTIM_INVOLVEMENT : "involviert als Opfer"
-    
-    INCIDENT ||--o{ OFFENDER_INVOLVEMENT : "hat"
-    PERSON ||--o{ OFFENDER_INVOLVEMENT : "involviert als Täter"
-    
-    WEAPON ||--o{ OFFENDER_INVOLVEMENT : "verwendet bei"
-    CIRCUMSTANCE ||--o{ OFFENDER_INVOLVEMENT : "passierte unter"
-```
-*Die m:n-Beziehungen ergeben sich hier zwischen `INCIDENT` und `PERSON` (einmal als Opfer via `VICTIM_INVOLVEMENT`, einmal als Täter via `OFFENDER_INVOLVEMENT`).*
+* Vergleich der Tötungsdelikte und Gesamtopferzahlen pro Bundesstaat zwischen 1980 und 2025
+* Die 5 häufigsten Tatwaffen bei Beziehungstaten in Bundesstaaten mit hoher Fallzahl
+* Polizeibehörden mit überdurchschnittlich vielen ungelösten Fällen
+* **Data Dictionary:** Ausgabe aller Tabellen und deren Spaltenanzahl
+* **Data Dictionary:** Constraints, Datentypen und Längen für die Tabelle `INCIDENT`
+* **Data Dictionary:** Berechtigungen der Rolle `DataAnalyst` und des Benutzers `PublicViewer`
 
----
+## Trigger
 
-## Geplante SQL-Abfragen (Textuelle Beschreibung)
+* **Before-Insert-Trigger:** Überprüfung auf ein plausibles Alter (0–120 Jahre) vor dem Einfügen einer neuen Person.
+* **After-Update-Trigger:** Automatischer Logeintrag in `AUDIT_LOG`, wenn sich die Aufklärungssituation (`Situation`) eines Vorfalls ändert.
 
-**3 komplexe Abfragen (mit JOIN, GROUP BY, AVG, SUM, COUNT, ORDER BY, Subqueries):**
+## Benutzerrechte & Views
 
-1. **Gefährlichste Bundesstaaten und Opferprofil:**
-   Zeigt die Gesamtzahl der Tötungsdelikte und das durchschnittliche Alter der Opfer pro Bundesstaat an. Die Ausgabe wird nach der Anzahl der Vorfälle absteigend sortiert.
-   *(Enthält: JOIN über Agency, Incident, Victim_Involvement und Person, GROUP BY State, COUNT, AVG, ORDER BY)*
-2. **Häufigste Waffen bei Beziehungstaten:**
-   Ermittelt die Top 5 der am häufigsten verwendeten Waffen bei Vorfällen, in denen der Täter das Opfer kannte (Relationship ungleich 'Stranger' oder 'Unknown').
-   *(Enthält: JOIN über Weapon und Offender_Involvement, GROUP BY Waffe, COUNT, ORDER BY DESC, LIMIT/FETCH FIRST)*
-3. **Behörden mit überdurchschnittlich vielen ungelösten Fällen:**
-   Listet alle Polizeibehörden auf, bei denen die Anzahl der ungelösten Vorfälle (z.B. Täter ist "Unknown") größer ist als der Durchschnitt der ungelösten Fälle über alle Behörden hinweg.
-   *(Enthält: Subquery mit AVG und COUNT, JOIN, GROUP BY, HAVING)*
-
-**3 Abfragen an das Data Dictionary:**
-1. Ausgabe aller von uns erstellten Tabellen sowie der jeweiligen Anzahl an Spalten.
-2. Ausgabe aller Constraints (Primary Keys, Foreign Keys, Check-Constraints), Datentypen und maximalen Längen pro Spalte für die Tabelle `INCIDENT`.
-3. Ausgabe der vergebenen System- und Objektberechtigungen für die Rolle `DataAnalyst` sowie für den Benutzer `PublicViewer`.
-
----
-
-## Geplante Trigger (Textuelle Beschreibung)
-
-1. **Before-Insert-Trigger (Datenvalidierung):**
-   Dieser Trigger feuert, bevor eine neue `PERSON` in die Datenbank eingefügt wird. Er überprüft, ob das Alter der Person in einem realistischen Bereich liegt (z.B. >= 0 und <= 120 oder ein spezieller Wert für "Unbekannt"). Ist das Alter unplausibel, wird der Insert mit einer aussagekräftigen Fehlermeldung abgebrochen.
-2. **After-Update-Trigger (Auditing/Logging):**
-   Dieser Trigger überwacht die Tabelle `INCIDENT`. Wenn sich der Aufklärungsstatus eines Falles ändert (z.B. ändert sich die `Situation` von "Single Victim/Unknown Offender" zu "Single Victim/Single Offender"), schreibt der Trigger automatisch einen Eintrag in eine Tabelle `AUDIT_LOG`. Gespeichert werden dabei die alte und neue Situation, das Datum der Änderung sowie der ausführende Benutzer.
-
----
-
-## Geplante Benutzerrechte & Views (Textuelle Beschreibung)
-
-**Benutzer und Rollen:**
-1. **Rolle `DataAnalyst`**: Hat umfassende Leserechte (SELECT) auf alle Tabellen, darf aber keine operativen Daten verändern.
-2. **Benutzer `AdminUser`**: Besitzt alle Rechte (SELECT, INSERT, UPDATE, DELETE, CREATE) auf alle Tabellen und Views. Er ist für die Verwaltung der Datenbankstruktur und Datenbereinigung zuständig.
-3. **Benutzer `Investigator`**: Ihm wird die Rolle `DataAnalyst` zugewiesen. Er kann somit auf die gesamten Datensätze lesend zugreifen, um Ermittlungen statistisch zu untermauern.
-4. **Benutzer `PublicViewer`**: Hat stark eingeschränkte Rechte. Er darf keine direkten Tabellen abfragen, sondern hat **nur Leserecht auf eine bestimmte View**.
-
-**Geplante View:**
-* **`Public_Incident_Overview`**: Diese View verknüpft `INCIDENT`, `AGENCY` und `WEAPON`. Sie zeigt lediglich aggregierte oder anonymisierte Daten an (Jahr, Monat, Bundesstaat, Art der Waffe). Details zu den beteiligten Personen (Alter, Geschlecht, Ethnie) werden bewusst weggelassen, um die Übersicht für die breite Öffentlichkeit sicher bereitzustellen.
+* **Rolle `DataAnalyst`:** Leserechte auf alle Tabellen zur statistischen Auswertung.
+* **Benutzer `Investigator`:** Zugewiesene Rolle `DataAnalyst`.
+* **Benutzer `AdminUser`:** Vollzugriff (Lesen, Schreiben, DDL) auf alle Tabellen und Views.
+* **Benutzer `PublicViewer`:** Leserechte nur auf Stammdaten (`AGENCY`, `WEAPON`) sowie auf die View.
+* **View `Historical_Comparison_View`:** Verknüpft Vorfälle, Behörden und Waffen zur anonymisierten Gegenüberstellung von Kriminalitätsstatistiken der Jahre 1980 und 2025.
