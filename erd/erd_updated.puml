@@ -1,0 +1,104 @@
+@startuml US_Homicides_Updated_ERD
+!theme plain
+skinparam linetype ortho
+skinparam roundcorner 5
+
+entity "AGENCY" as agency {
+    * ORI_Code : VARCHAR2(7) <<PK>>
+    --
+    * Agency_Name : VARCHAR2(100)
+    * State_Name : VARCHAR2(50)
+    * Population : NUMBER(10)
+    County : VARCHAR2(50)
+}
+
+entity "INCIDENT" as incident {
+    * Incident_ID : NUMBER <<PK>>
+    --
+    * ORI_Code : VARCHAR2(7) <<FK>>
+    * Year : NUMBER(4)
+    * Month : NUMBER(2)
+    * Incident_Number : VARCHAR2(20)
+    * Situation : VARCHAR2(60)
+    * Homicide_Type : VARCHAR2(60)
+    * Victim_Count : NUMBER(3)
+    * Offender_Count : NUMBER(3)
+    * Incident_Date : DATE
+}
+
+entity "AUDIT_LOG" as audit_log {
+    * Log_ID : NUMBER <<PK>>
+    --
+    * Incident_ID : NUMBER <<FK>>
+    Old_Situation : VARCHAR2(60)
+    * New_Situation : VARCHAR2(60)
+    * Changed_By : VARCHAR2(100)
+    * Changed_At : TIMESTAMP
+    * Action_Type : VARCHAR2(20)
+}
+
+entity "PERSON" as person {
+    * Person_ID : NUMBER <<PK>>
+    --
+    Age : NUMBER(3)
+    * Sex : CHAR(1)
+    * Race : VARCHAR2(50)
+    * Ethnicity : VARCHAR2(50)
+}
+
+entity "WEAPON" as weapon {
+    * Weapon_ID : NUMBER <<PK>>
+    --
+    Weapon_Code : VARCHAR2(10)
+    * Description : VARCHAR2(100) <<UQ>>
+}
+
+entity "CIRCUMSTANCE" as circumstance {
+    * Circumstance_ID : NUMBER <<PK>>
+    --
+    Circumstance_Code : VARCHAR2(10)
+    * Description : VARCHAR2(150) <<UQ>>
+}
+
+entity "VICTIM_INVOLVEMENT" as victim_inv {
+    * Incident_ID : NUMBER <<PK,FK>>
+    * Person_ID : NUMBER <<PK,FK>>
+    --
+    * Victim_Sequence : NUMBER(2)
+}
+
+entity "OFFENDER_INVOLVEMENT" as offender_inv {
+    * Incident_ID : NUMBER <<PK,FK>>
+    * Person_ID : NUMBER <<PK,FK>> (Täter)
+    --
+    Victim_Person_ID : NUMBER <<FK>> (Opfer)
+    * Weapon_ID : NUMBER <<FK>>
+    * Circumstance_ID : NUMBER <<FK>>
+    * Relationship : VARCHAR2(60)
+    * Offender_Sequence : NUMBER(2)
+}
+
+agency ||--o{ incident : "meldet"
+incident ||--o{ audit_log : "protokolliert"
+incident ||--o{ victim_inv : "hat Opfer"
+person ||--o{ victim_inv : "involviert als"
+incident ||--o{ offender_inv : "hat Täter"
+person ||--o{ offender_inv : "involviert als Täter"
+person ||--o{ offender_inv : "referenziert als Opfer"
+weapon ||--o{ offender_inv : "verwendet bei"
+circumstance ||--o{ offender_inv : "passierte unter"
+
+note right of offender_inv
+  **Klarstellung (Feedback 1):**
+  Victim_Person_ID klärt "Relationship zu wem?".
+  Relationship definiert die Beziehung des Täters
+  zum jeweiligen Opfer.
+end note
+
+note right of audit_log
+  **Klarstellung (Feedback 3):**
+  AUDIT_LOG als eigenständige Tabelle
+  für den After-Update-Trigger.
+end note
+
+@enduml

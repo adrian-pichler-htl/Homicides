@@ -1,0 +1,346 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1100" width="1600" height="1100" style="background-color: #F8F9FA; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+
+    <defs>
+        <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+            <feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.12"/>
+        </filter>
+        <marker id="crowfoot" viewBox="0 0 20 20" refX="18" refY="10" markerWidth="12" markerHeight="12" orient="auto">
+            <path d="M 0 0 L 18 10 L 0 20 M 18 0 L 18 20" fill="none" stroke="#6C5CE7" stroke-width="2"/>
+        </marker>
+        <marker id="circle-crowfoot" viewBox="0 0 24 20" refX="22" refY="10" markerWidth="14" markerHeight="12" orient="auto">
+            <circle cx="6" cy="10" r="4" fill="#F8F9FA" stroke="#6C5CE7" stroke-width="2"/>
+            <path d="M 10 2 L 22 10 L 10 18 M 22 2 L 22 18" fill="none" stroke="#6C5CE7" stroke-width="2"/>
+        </marker>
+        <marker id="one-and-only-one" viewBox="0 0 20 20" refX="10" refY="10" markerWidth="10" markerHeight="10" orient="auto">
+            <line x1="6" y1="2" x2="6" y2="18" stroke="#6C5CE7" stroke-width="2"/>
+            <line x1="12" y1="2" x2="12" y2="18" stroke="#6C5CE7" stroke-width="2"/>
+        </marker>
+    </defs>
+    
+    <!-- Header Title -->
+    <text x="50" y="38" font-size="22" font-weight="bold" fill="#2D3436">US Homicides (SHR) - Aktualisiertes Entity-Relationship-Diagramm (ERD)</text>
+    
+    <!-- Legend / Feedback Box -->
+    <g transform="translate(850, 40)" filter="url(#shadow)">
+        <rect width="660" height="190" rx="8" fill="#FFFFFF" stroke="#00B894" stroke-width="2"/>
+        <rect width="660" height="32" rx="8" fill="#00B894"/>
+        <text x="15" y="22" font-size="14" font-weight="bold" fill="#FFFFFF">Feedback-Umsetzung &amp; Kriminologische Begriffsklärungen</text>
+        
+        <text x="15" y="55" font-size="12" font-weight="bold" fill="#2D3436">1. Eigene Tabelle für After-Update-Trigger (Feedback 3):</text>
+        <text x="30" y="73" font-size="11" fill="#636E72">• Tabelle AUDIT_LOG als eigenständige Entität hinzugefügt (protokolliert Änderungen an Situation).</text>
+        
+        <text x="15" y="95" font-size="12" font-weight="bold" fill="#2D3436">2. Relationship zu wem? (Feedback 1):</text>
+        <text x="30" y="113" font-size="11" fill="#636E72">• In OFFENDER_INVOLVEMENT referenziert Victim_Person_ID explizit das spezifische Opfer (PERSON).</text>
+        <text x="30" y="128" font-size="11" fill="#636E72">• Relationship definiert die konkrete Beziehung des Täters zu DIESEM Opfer (z.B. Wife, Friend, Stranger).</text>
+        
+        <text x="15" y="150" font-size="12" font-weight="bold" fill="#2D3436">3. Was ist ungelöst? (Feedback 2):</text>
+        <text x="30" y="168" font-size="11" fill="#636E72">• Unsolved / Cold Case: Situation IN ('Single/Multiple Victims/Unknown Offender(s)') bzw. Offender_Count = 0.</text>
+    </g>
+    
+        <line x1="195" y1="190" x2="195" y2="280" stroke="#6C5CE7" stroke-width="2" marker-start="url(#one-and-only-one)" marker-end="url(#circle-crowfoot)"/>
+        <rect x="155" y="225" width="80" height="18" rx="4" fill="#FFFFFF" fill-opacity="0.85"/>
+        <text x="195" y="238" font-size="10" font-weight="bold" fill="#6C5CE7" text-anchor="middle">meldet</text>
+        
+        <line x1="195" y1="570" x2="195" y2="670" stroke="#6C5CE7" stroke-width="2" marker-start="url(#one-and-only-one)" marker-end="url(#circle-crowfoot)"/>
+        <rect x="155" y="610" width="80" height="18" rx="4" fill="#FFFFFF" fill-opacity="0.85"/>
+        <text x="195" y="623" font-size="10" font-weight="bold" fill="#6C5CE7" text-anchor="middle">protokolliert</text>
+        
+        <line x1="340" y1="420" x2="480" y2="560" stroke="#6C5CE7" stroke-width="2" marker-start="url(#one-and-only-one)" marker-end="url(#circle-crowfoot)"/>
+        <rect x="370" y="480" width="80" height="18" rx="4" fill="#FFFFFF" fill-opacity="0.85"/>
+        <text x="410" y="493" font-size="10" font-weight="bold" fill="#6C5CE7" text-anchor="middle">hat Opfer</text>
+        
+        <line x1="615" y1="420" x2="615" y2="520" stroke="#6C5CE7" stroke-width="2" marker-start="url(#one-and-only-one)" marker-end="url(#circle-crowfoot)"/>
+        <rect x="575" y="460" width="80" height="18" rx="4" fill="#FFFFFF" fill-opacity="0.85"/>
+        <text x="615" y="473" font-size="10" font-weight="bold" fill="#6C5CE7" text-anchor="middle">involviert als Opfer</text>
+        
+        <line x1="340" y1="450" x2="850" y2="590" stroke="#6C5CE7" stroke-width="2" marker-start="url(#one-and-only-one)" marker-end="url(#circle-crowfoot)"/>
+        <rect x="555" y="510" width="80" height="18" rx="4" fill="#FFFFFF" fill-opacity="0.85"/>
+        <text x="595" y="523" font-size="10" font-weight="bold" fill="#6C5CE7" text-anchor="middle">hat Täter</text>
+        
+        <line x1="750" y1="350" x2="850" y2="540" stroke="#6C5CE7" stroke-width="2" marker-start="url(#one-and-only-one)" marker-end="url(#circle-crowfoot)"/>
+        <rect x="760" y="435" width="80" height="18" rx="4" fill="#FFFFFF" fill-opacity="0.85"/>
+        <text x="800" y="448" font-size="10" font-weight="bold" fill="#6C5CE7" text-anchor="middle">involviert als Täter</text>
+        
+        <line x1="750" y1="380" x2="850" y2="565" stroke="#6C5CE7" stroke-width="2" marker-start="url(#one-and-only-one)" marker-end="url(#circle-crowfoot)"/>
+        <rect x="760" y="462.5" width="80" height="18" rx="4" fill="#FFFFFF" fill-opacity="0.85"/>
+        <text x="800" y="475.5" font-size="10" font-weight="bold" fill="#6C5CE7" text-anchor="middle">Bezugsopfer (*)</text>
+        
+        <line x1="985" y1="390" x2="985" y2="520" stroke="#6C5CE7" stroke-width="2" marker-start="url(#one-and-only-one)" marker-end="url(#circle-crowfoot)"/>
+        <rect x="945" y="445" width="80" height="18" rx="4" fill="#FFFFFF" fill-opacity="0.85"/>
+        <text x="985" y="458" font-size="10" font-weight="bold" fill="#6C5CE7" text-anchor="middle">verwendet bei</text>
+        
+        <line x1="1365" y1="390" x2="1100" y2="520" stroke="#6C5CE7" stroke-width="2" marker-start="url(#one-and-only-one)" marker-end="url(#circle-crowfoot)"/>
+        <rect x="1192.5" y="445" width="80" height="18" rx="4" fill="#FFFFFF" fill-opacity="0.85"/>
+        <text x="1232.5" y="458" font-size="10" font-weight="bold" fill="#6C5CE7" text-anchor="middle">passierte unter</text>
+        
+        <!-- Table: AGENCY -->
+        <g transform="translate(50, 50)" filter="url(#shadow)">
+            <rect width="280" height="152" rx="6" fill="#FFFFFF" stroke="#B2BEC3" stroke-width="1.5"/>
+            <path d="M 0 6 Q 0 0 6 0 L 274 0 Q 280 0 280 6 L 280 32 L 0 32 Z" fill="#EBE8F9"/>
+            <text x="140" y="21" font-size="13" font-weight="bold" fill="#4834D4" text-anchor="middle">AGENCY</text>
+        
+            <rect x="0" y="32" width="280" height="24" fill="#FFFFFF" stroke="#DFE6E9" stroke-width="0.5"/>
+            <text x="10" y="48" font-size="11" fill="#A4B0BE" font-family="monospace">string</text>
+            <text x="75" y="48" font-size="11" font-weight="bold" fill="#2D3436">ORI_Code</text>
+            <text x="270" y="48" font-size="10" font-weight="bold" fill="#E17055" text-anchor="end">PK</text>
+            
+            <rect x="0" y="56" width="280" height="24" fill="#F8F9FA" stroke="#DFE6E9" stroke-width="0.5"/>
+            <text x="10" y="72" font-size="11" fill="#A4B0BE" font-family="monospace">string</text>
+            <text x="75" y="72" font-size="11" font-weight="normal" fill="#636E72">Agency_Name</text>
+            <text x="270" y="72" font-size="10" font-weight="bold" fill="#B2BEC3" text-anchor="end"></text>
+            
+            <rect x="0" y="80" width="280" height="24" fill="#FFFFFF" stroke="#DFE6E9" stroke-width="0.5"/>
+            <text x="10" y="96" font-size="11" fill="#A4B0BE" font-family="monospace">string</text>
+            <text x="75" y="96" font-size="11" font-weight="normal" fill="#636E72">State_Name</text>
+            <text x="270" y="96" font-size="10" font-weight="bold" fill="#B2BEC3" text-anchor="end"></text>
+            
+            <rect x="0" y="104" width="280" height="24" fill="#F8F9FA" stroke="#DFE6E9" stroke-width="0.5"/>
+            <text x="10" y="120" font-size="11" fill="#A4B0BE" font-family="monospace">int</text>
+            <text x="75" y="120" font-size="11" font-weight="normal" fill="#636E72">Population</text>
+            <text x="270" y="120" font-size="10" font-weight="bold" fill="#B2BEC3" text-anchor="end"></text>
+            
+            <rect x="0" y="128" width="280" height="24" fill="#FFFFFF" stroke="#DFE6E9" stroke-width="0.5"/>
+            <text x="10" y="144" font-size="11" fill="#A4B0BE" font-family="monospace">string</text>
+            <text x="75" y="144" font-size="11" font-weight="normal" fill="#636E72">County</text>
+            <text x="270" y="144" font-size="10" font-weight="bold" fill="#B2BEC3" text-anchor="end"></text>
+            </g>
+
+        <!-- Table: INCIDENT -->
+        <g transform="translate(50, 280)" filter="url(#shadow)">
+            <rect width="290" height="272" rx="6" fill="#FFFFFF" stroke="#B2BEC3" stroke-width="1.5"/>
+            <path d="M 0 6 Q 0 0 6 0 L 284 0 Q 290 0 290 6 L 290 32 L 0 32 Z" fill="#EBE8F9"/>
+            <text x="145" y="21" font-size="13" font-weight="bold" fill="#4834D4" text-anchor="middle">INCIDENT</text>
+        
+            <rect x="0" y="32" width="290" height="24" fill="#FFFFFF" stroke="#DFE6E9" stroke-width="0.5"/>
+            <text x="10" y="48" font-size="11" fill="#A4B0BE" font-family="monospace">int</text>
+            <text x="75" y="48" font-size="11" font-weight="bold" fill="#2D3436">Incident_ID</text>
+            <text x="280" y="48" font-size="10" font-weight="bold" fill="#E17055" text-anchor="end">PK</text>
+            
+            <rect x="0" y="56" width="290" height="24" fill="#F8F9FA" stroke="#DFE6E9" stroke-width="0.5"/>
+            <text x="10" y="72" font-size="11" fill="#A4B0BE" font-family="monospace">string</text>
+            <text x="75" y="72" font-size="11" font-weight="bold" fill="#2D3436">ORI_Code</text>
+            <text x="280" y="72" font-size="10" font-weight="bold" fill="#0984E3" text-anchor="end">FK</text>
+            
+            <rect x="0" y="80" width="290" height="24" fill="#FFFFFF" stroke="#DFE6E9" stroke-width="0.5"/>
+            <text x="10" y="96" font-size="11" fill="#A4B0BE" font-family="monospace">int</text>
+            <text x="75" y="96" font-size="11" font-weight="normal" fill="#636E72">Year</text>
+            <text x="280" y="96" font-size="10" font-weight="bold" fill="#B2BEC3" text-anchor="end"></text>
+            
+            <rect x="0" y="104" width="290" height="24" fill="#F8F9FA" stroke="#DFE6E9" stroke-width="0.5"/>
+            <text x="10" y="120" font-size="11" fill="#A4B0BE" font-family="monospace">int</text>
+            <text x="75" y="120" font-size="11" font-weight="normal" fill="#636E72">Month</text>
+            <text x="280" y="120" font-size="10" font-weight="bold" fill="#B2BEC3" text-anchor="end"></text>
+            
+            <rect x="0" y="128" width="290" height="24" fill="#FFFFFF" stroke="#DFE6E9" stroke-width="0.5"/>
+            <text x="10" y="144" font-size="11" fill="#A4B0BE" font-family="monospace">string</text>
+            <text x="75" y="144" font-size="11" font-weight="normal" fill="#636E72">Incident_Number</text>
+            <text x="280" y="144" font-size="10" font-weight="bold" fill="#B2BEC3" text-anchor="end"></text>
+            
+            <rect x="0" y="152" width="290" height="24" fill="#F8F9FA" stroke="#DFE6E9" stroke-width="0.5"/>
+            <text x="10" y="168" font-size="11" fill="#A4B0BE" font-family="monospace">string</text>
+            <text x="75" y="168" font-size="11" font-weight="normal" fill="#636E72">Situation</text>
+            <text x="280" y="168" font-size="10" font-weight="bold" fill="#B2BEC3" text-anchor="end"></text>
+            
+            <rect x="0" y="176" width="290" height="24" fill="#FFFFFF" stroke="#DFE6E9" stroke-width="0.5"/>
+            <text x="10" y="192" font-size="11" fill="#A4B0BE" font-family="monospace">string</text>
+            <text x="75" y="192" font-size="11" font-weight="normal" fill="#636E72">Homicide_Type</text>
+            <text x="280" y="192" font-size="10" font-weight="bold" fill="#B2BEC3" text-anchor="end"></text>
+            
+            <rect x="0" y="200" width="290" height="24" fill="#F8F9FA" stroke="#DFE6E9" stroke-width="0.5"/>
+            <text x="10" y="216" font-size="11" fill="#A4B0BE" font-family="monospace">int</text>
+            <text x="75" y="216" font-size="11" font-weight="normal" fill="#636E72">Victim_Count</text>
+            <text x="280" y="216" font-size="10" font-weight="bold" fill="#B2BEC3" text-anchor="end"></text>
+            
+            <rect x="0" y="224" width="290" height="24" fill="#FFFFFF" stroke="#DFE6E9" stroke-width="0.5"/>
+            <text x="10" y="240" font-size="11" fill="#A4B0BE" font-family="monospace">int</text>
+            <text x="75" y="240" font-size="11" font-weight="normal" fill="#636E72">Offender_Count</text>
+            <text x="280" y="240" font-size="10" font-weight="bold" fill="#B2BEC3" text-anchor="end"></text>
+            
+            <rect x="0" y="248" width="290" height="24" fill="#F8F9FA" stroke="#DFE6E9" stroke-width="0.5"/>
+            <text x="10" y="264" font-size="11" fill="#A4B0BE" font-family="monospace">date</text>
+            <text x="75" y="264" font-size="11" font-weight="normal" fill="#636E72">Incident_Date</text>
+            <text x="280" y="264" font-size="10" font-weight="bold" fill="#B2BEC3" text-anchor="end"></text>
+            </g>
+
+        <!-- Table: AUDIT_LOG -->
+        <g transform="translate(50, 670)" filter="url(#shadow)">
+            <rect width="290" height="200" rx="6" fill="#FFFFFF" stroke="#6C5CE7" stroke-width="2"/>
+            <path d="M 0 6 Q 0 0 6 0 L 284 0 Q 290 0 290 6 L 290 32 L 0 32 Z" fill="#6C5CE7"/>
+            <text x="145" y="21" font-size="13" font-weight="bold" fill="#FFFFFF" text-anchor="middle">AUDIT_LOG</text>
+        <text x="282" y="12" font-size="8" font-weight="bold" fill="#FFEAA7" text-anchor="end">Neu (Feedback 3): Eigene Tabelle</text>
+            <rect x="0" y="32" width="290" height="24" fill="#FFFFFF" stroke="#DFE6E9" stroke-width="0.5"/>
+            <text x="10" y="48" font-size="11" fill="#A4B0BE" font-family="monospace">int</text>
+            <text x="75" y="48" font-size="11" font-weight="bold" fill="#2D3436">Log_ID</text>
+            <text x="280" y="48" font-size="10" font-weight="bold" fill="#E17055" text-anchor="end">PK</text>
+            
+            <rect x="0" y="56" width="290" height="24" fill="#F8F9FA" stroke="#DFE6E9" stroke-width="0.5"/>
+            <text x="10" y="72" font-size="11" fill="#A4B0BE" font-family="monospace">int</text>
+            <text x="75" y="72" font-size="11" font-weight="bold" fill="#2D3436">Incident_ID</text>
+            <text x="280" y="72" font-size="10" font-weight="bold" fill="#0984E3" text-anchor="end">FK</text>
+            
+            <rect x="0" y="80" width="290" height="24" fill="#FFFFFF" stroke="#DFE6E9" stroke-width="0.5"/>
+            <text x="10" y="96" font-size="11" fill="#A4B0BE" font-family="monospace">string</text>
+            <text x="75" y="96" font-size="11" font-weight="normal" fill="#636E72">Old_Situation</text>
+            <text x="280" y="96" font-size="10" font-weight="bold" fill="#B2BEC3" text-anchor="end"></text>
+            
+            <rect x="0" y="104" width="290" height="24" fill="#F8F9FA" stroke="#DFE6E9" stroke-width="0.5"/>
+            <text x="10" y="120" font-size="11" fill="#A4B0BE" font-family="monospace">string</text>
+            <text x="75" y="120" font-size="11" font-weight="normal" fill="#636E72">New_Situation</text>
+            <text x="280" y="120" font-size="10" font-weight="bold" fill="#B2BEC3" text-anchor="end"></text>
+            
+            <rect x="0" y="128" width="290" height="24" fill="#FFFFFF" stroke="#DFE6E9" stroke-width="0.5"/>
+            <text x="10" y="144" font-size="11" fill="#A4B0BE" font-family="monospace">string</text>
+            <text x="75" y="144" font-size="11" font-weight="normal" fill="#636E72">Changed_By</text>
+            <text x="280" y="144" font-size="10" font-weight="bold" fill="#B2BEC3" text-anchor="end"></text>
+            
+            <rect x="0" y="152" width="290" height="24" fill="#F8F9FA" stroke="#DFE6E9" stroke-width="0.5"/>
+            <text x="10" y="168" font-size="11" fill="#A4B0BE" font-family="monospace">timestamp</text>
+            <text x="75" y="168" font-size="11" font-weight="normal" fill="#636E72">Changed_At</text>
+            <text x="280" y="168" font-size="10" font-weight="bold" fill="#B2BEC3" text-anchor="end"></text>
+            
+            <rect x="0" y="176" width="290" height="24" fill="#FFFFFF" stroke="#DFE6E9" stroke-width="0.5"/>
+            <text x="10" y="192" font-size="11" fill="#A4B0BE" font-family="monospace">string</text>
+            <text x="75" y="192" font-size="11" font-weight="normal" fill="#636E72">Action_Type</text>
+            <text x="280" y="192" font-size="10" font-weight="bold" fill="#B2BEC3" text-anchor="end"></text>
+            </g>
+
+        <!-- Table: PERSON -->
+        <g transform="translate(480, 280)" filter="url(#shadow)">
+            <rect width="270" height="152" rx="6" fill="#FFFFFF" stroke="#B2BEC3" stroke-width="1.5"/>
+            <path d="M 0 6 Q 0 0 6 0 L 264 0 Q 270 0 270 6 L 270 32 L 0 32 Z" fill="#EBE8F9"/>
+            <text x="135" y="21" font-size="13" font-weight="bold" fill="#4834D4" text-anchor="middle">PERSON</text>
+        
+            <rect x="0" y="32" width="270" height="24" fill="#FFFFFF" stroke="#DFE6E9" stroke-width="0.5"/>
+            <text x="10" y="48" font-size="11" fill="#A4B0BE" font-family="monospace">int</text>
+            <text x="75" y="48" font-size="11" font-weight="bold" fill="#2D3436">Person_ID</text>
+            <text x="260" y="48" font-size="10" font-weight="bold" fill="#E17055" text-anchor="end">PK</text>
+            
+            <rect x="0" y="56" width="270" height="24" fill="#F8F9FA" stroke="#DFE6E9" stroke-width="0.5"/>
+            <text x="10" y="72" font-size="11" fill="#A4B0BE" font-family="monospace">int</text>
+            <text x="75" y="72" font-size="11" font-weight="normal" fill="#636E72">Age</text>
+            <text x="260" y="72" font-size="10" font-weight="bold" fill="#B2BEC3" text-anchor="end"></text>
+            
+            <rect x="0" y="80" width="270" height="24" fill="#FFFFFF" stroke="#DFE6E9" stroke-width="0.5"/>
+            <text x="10" y="96" font-size="11" fill="#A4B0BE" font-family="monospace">char</text>
+            <text x="75" y="96" font-size="11" font-weight="normal" fill="#636E72">Sex</text>
+            <text x="260" y="96" font-size="10" font-weight="bold" fill="#B2BEC3" text-anchor="end"></text>
+            
+            <rect x="0" y="104" width="270" height="24" fill="#F8F9FA" stroke="#DFE6E9" stroke-width="0.5"/>
+            <text x="10" y="120" font-size="11" fill="#A4B0BE" font-family="monospace">string</text>
+            <text x="75" y="120" font-size="11" font-weight="normal" fill="#636E72">Race</text>
+            <text x="260" y="120" font-size="10" font-weight="bold" fill="#B2BEC3" text-anchor="end"></text>
+            
+            <rect x="0" y="128" width="270" height="24" fill="#FFFFFF" stroke="#DFE6E9" stroke-width="0.5"/>
+            <text x="10" y="144" font-size="11" fill="#A4B0BE" font-family="monospace">string</text>
+            <text x="75" y="144" font-size="11" font-weight="normal" fill="#636E72">Ethnicity</text>
+            <text x="260" y="144" font-size="10" font-weight="bold" fill="#B2BEC3" text-anchor="end"></text>
+            </g>
+
+        <!-- Table: VICTIM_INVOLVEMENT -->
+        <g transform="translate(480, 520)" filter="url(#shadow)">
+            <rect width="270" height="104" rx="6" fill="#FFFFFF" stroke="#B2BEC3" stroke-width="1.5"/>
+            <path d="M 0 6 Q 0 0 6 0 L 264 0 Q 270 0 270 6 L 270 32 L 0 32 Z" fill="#EBE8F9"/>
+            <text x="135" y="21" font-size="13" font-weight="bold" fill="#4834D4" text-anchor="middle">VICTIM_INVOLVEMENT</text>
+        
+            <rect x="0" y="32" width="270" height="24" fill="#FFFFFF" stroke="#DFE6E9" stroke-width="0.5"/>
+            <text x="10" y="48" font-size="11" fill="#A4B0BE" font-family="monospace">int</text>
+            <text x="75" y="48" font-size="11" font-weight="bold" fill="#2D3436">Incident_ID</text>
+            <text x="260" y="48" font-size="10" font-weight="bold" fill="#E17055" text-anchor="end">PK,FK</text>
+            
+            <rect x="0" y="56" width="270" height="24" fill="#F8F9FA" stroke="#DFE6E9" stroke-width="0.5"/>
+            <text x="10" y="72" font-size="11" fill="#A4B0BE" font-family="monospace">int</text>
+            <text x="75" y="72" font-size="11" font-weight="bold" fill="#2D3436">Person_ID</text>
+            <text x="260" y="72" font-size="10" font-weight="bold" fill="#E17055" text-anchor="end">PK,FK</text>
+            
+            <rect x="0" y="80" width="270" height="24" fill="#FFFFFF" stroke="#DFE6E9" stroke-width="0.5"/>
+            <text x="10" y="96" font-size="11" fill="#A4B0BE" font-family="monospace">int</text>
+            <text x="75" y="96" font-size="11" font-weight="normal" fill="#636E72">Victim_Sequence</text>
+            <text x="260" y="96" font-size="10" font-weight="bold" fill="#B2BEC3" text-anchor="end"></text>
+            </g>
+
+        <!-- Table: OFFENDER_INVOLVEMENT -->
+        <g transform="translate(850, 520)" filter="url(#shadow)">
+            <rect width="330" height="200" rx="6" fill="#FFFFFF" stroke="#6C5CE7" stroke-width="2"/>
+            <path d="M 0 6 Q 0 0 6 0 L 324 0 Q 330 0 330 6 L 330 32 L 0 32 Z" fill="#6C5CE7"/>
+            <text x="165" y="21" font-size="13" font-weight="bold" fill="#FFFFFF" text-anchor="middle">OFFENDER_INVOLVEMENT</text>
+        <text x="322" y="12" font-size="8" font-weight="bold" fill="#FFEAA7" text-anchor="end">Aktualisiert (Feedback 1)</text>
+            <rect x="0" y="32" width="330" height="24" fill="#FFFFFF" stroke="#DFE6E9" stroke-width="0.5"/>
+            <text x="10" y="48" font-size="11" fill="#A4B0BE" font-family="monospace">int</text>
+            <text x="75" y="48" font-size="11" font-weight="bold" fill="#2D3436">Incident_ID</text>
+            <text x="320" y="48" font-size="10" font-weight="bold" fill="#E17055" text-anchor="end">PK,FK</text>
+            
+            <rect x="0" y="56" width="330" height="24" fill="#F8F9FA" stroke="#DFE6E9" stroke-width="0.5"/>
+            <text x="10" y="72" font-size="11" fill="#A4B0BE" font-family="monospace">int</text>
+            <text x="75" y="72" font-size="11" font-weight="bold" fill="#2D3436">Person_ID</text>
+            <text x="320" y="72" font-size="10" font-weight="bold" fill="#E17055" text-anchor="end">PK,FK (Täter)</text>
+            
+            <rect x="0" y="80" width="330" height="24" fill="#FFFFFF" stroke="#DFE6E9" stroke-width="0.5"/>
+            <text x="10" y="96" font-size="11" fill="#A4B0BE" font-family="monospace">int</text>
+            <text x="75" y="96" font-size="11" font-weight="bold" fill="#2D3436">Victim_Person_ID</text>
+            <text x="320" y="96" font-size="10" font-weight="bold" fill="#0984E3" text-anchor="end">FK (Opfer) *</text>
+            
+            <rect x="0" y="104" width="330" height="24" fill="#F8F9FA" stroke="#DFE6E9" stroke-width="0.5"/>
+            <text x="10" y="120" font-size="11" fill="#A4B0BE" font-family="monospace">int</text>
+            <text x="75" y="120" font-size="11" font-weight="bold" fill="#2D3436">Weapon_ID</text>
+            <text x="320" y="120" font-size="10" font-weight="bold" fill="#0984E3" text-anchor="end">FK</text>
+            
+            <rect x="0" y="128" width="330" height="24" fill="#FFFFFF" stroke="#DFE6E9" stroke-width="0.5"/>
+            <text x="10" y="144" font-size="11" fill="#A4B0BE" font-family="monospace">int</text>
+            <text x="75" y="144" font-size="11" font-weight="bold" fill="#2D3436">Circumstance_ID</text>
+            <text x="320" y="144" font-size="10" font-weight="bold" fill="#0984E3" text-anchor="end">FK</text>
+            
+            <rect x="0" y="152" width="330" height="24" fill="#F8F9FA" stroke="#DFE6E9" stroke-width="0.5"/>
+            <text x="10" y="168" font-size="11" fill="#A4B0BE" font-family="monospace">string</text>
+            <text x="75" y="168" font-size="11" font-weight="normal" fill="#636E72">Relationship</text>
+            <text x="320" y="168" font-size="10" font-weight="bold" fill="#B2BEC3" text-anchor="end"></text>
+            
+            <rect x="0" y="176" width="330" height="24" fill="#FFFFFF" stroke="#DFE6E9" stroke-width="0.5"/>
+            <text x="10" y="192" font-size="11" fill="#A4B0BE" font-family="monospace">int</text>
+            <text x="75" y="192" font-size="11" font-weight="normal" fill="#636E72">Offender_Sequence</text>
+            <text x="320" y="192" font-size="10" font-weight="bold" fill="#B2BEC3" text-anchor="end"></text>
+            </g>
+
+        <!-- Table: WEAPON -->
+        <g transform="translate(850, 280)" filter="url(#shadow)">
+            <rect width="270" height="104" rx="6" fill="#FFFFFF" stroke="#B2BEC3" stroke-width="1.5"/>
+            <path d="M 0 6 Q 0 0 6 0 L 264 0 Q 270 0 270 6 L 270 32 L 0 32 Z" fill="#EBE8F9"/>
+            <text x="135" y="21" font-size="13" font-weight="bold" fill="#4834D4" text-anchor="middle">WEAPON</text>
+        
+            <rect x="0" y="32" width="270" height="24" fill="#FFFFFF" stroke="#DFE6E9" stroke-width="0.5"/>
+            <text x="10" y="48" font-size="11" fill="#A4B0BE" font-family="monospace">int</text>
+            <text x="75" y="48" font-size="11" font-weight="bold" fill="#2D3436">Weapon_ID</text>
+            <text x="260" y="48" font-size="10" font-weight="bold" fill="#E17055" text-anchor="end">PK</text>
+            
+            <rect x="0" y="56" width="270" height="24" fill="#F8F9FA" stroke="#DFE6E9" stroke-width="0.5"/>
+            <text x="10" y="72" font-size="11" fill="#A4B0BE" font-family="monospace">string</text>
+            <text x="75" y="72" font-size="11" font-weight="normal" fill="#636E72">Weapon_Code</text>
+            <text x="260" y="72" font-size="10" font-weight="bold" fill="#B2BEC3" text-anchor="end"></text>
+            
+            <rect x="0" y="80" width="270" height="24" fill="#FFFFFF" stroke="#DFE6E9" stroke-width="0.5"/>
+            <text x="10" y="96" font-size="11" fill="#A4B0BE" font-family="monospace">string</text>
+            <text x="75" y="96" font-size="11" font-weight="normal" fill="#636E72">Description</text>
+            <text x="260" y="96" font-size="10" font-weight="bold" fill="#B2BEC3" text-anchor="end">UQ</text>
+            </g>
+
+        <!-- Table: CIRCUMSTANCE -->
+        <g transform="translate(1220, 280)" filter="url(#shadow)">
+            <rect width="290" height="104" rx="6" fill="#FFFFFF" stroke="#B2BEC3" stroke-width="1.5"/>
+            <path d="M 0 6 Q 0 0 6 0 L 284 0 Q 290 0 290 6 L 290 32 L 0 32 Z" fill="#EBE8F9"/>
+            <text x="145" y="21" font-size="13" font-weight="bold" fill="#4834D4" text-anchor="middle">CIRCUMSTANCE</text>
+        
+            <rect x="0" y="32" width="290" height="24" fill="#FFFFFF" stroke="#DFE6E9" stroke-width="0.5"/>
+            <text x="10" y="48" font-size="11" fill="#A4B0BE" font-family="monospace">int</text>
+            <text x="75" y="48" font-size="11" font-weight="bold" fill="#2D3436">Circumstance_ID</text>
+            <text x="280" y="48" font-size="10" font-weight="bold" fill="#E17055" text-anchor="end">PK</text>
+            
+            <rect x="0" y="56" width="290" height="24" fill="#F8F9FA" stroke="#DFE6E9" stroke-width="0.5"/>
+            <text x="10" y="72" font-size="11" fill="#A4B0BE" font-family="monospace">string</text>
+            <text x="75" y="72" font-size="11" font-weight="normal" fill="#636E72">Circumstance_Code</text>
+            <text x="280" y="72" font-size="10" font-weight="bold" fill="#B2BEC3" text-anchor="end"></text>
+            
+            <rect x="0" y="80" width="290" height="24" fill="#FFFFFF" stroke="#DFE6E9" stroke-width="0.5"/>
+            <text x="10" y="96" font-size="11" fill="#A4B0BE" font-family="monospace">string</text>
+            <text x="75" y="96" font-size="11" font-weight="normal" fill="#636E72">Description</text>
+            <text x="280" y="96" font-size="10" font-weight="bold" fill="#B2BEC3" text-anchor="end">UQ</text>
+            </g>
+</svg>
